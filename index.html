@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>페어틀 메이커 · 2004 @kit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Gowun+Dodum&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font:13px/1.45 'Pretendard Variable','Pretendard','Noto Sans KR',system-ui,sans-serif;color:#1b1b1b;background:#c8c8c6}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid #2b5cff;outline-offset:1px}
+
+.app{display:grid;grid-template-columns:400px minmax(0,1fr);height:100vh}
+.panel{background:#f7f7f6;border-right:1px solid #d6d6d3;overflow-y:auto}
+.ph-head{padding:18px 16px 14px;border-bottom:1px solid #e3e3e0}
+.ph-head h1{margin:0 0 4px;font-size:17px;letter-spacing:-.01em}
+.ph-head p{margin:0;color:#666;font-size:12px}
+
+details.g>summary{padding:12px 16px;font-weight:700;cursor:pointer;border-bottom:1px solid #e3e3e0;list-style:none;display:flex;justify-content:space-between}
+details.g>summary::-webkit-details-marker,details.sub>summary::-webkit-details-marker{display:none}
+details.g>summary::after{content:'+';color:#999;font-weight:400}
+details.g[open]>summary::after{content:'−'}
+.gb{padding:14px 16px 18px;display:grid;gap:12px;border-bottom:1px solid #e3e3e0}
+details.sub{border:1px solid #d9d9d5;border-radius:6px;background:#fff;margin-bottom:10px}
+details.sub>summary{padding:9px 12px;cursor:pointer;font-weight:600;list-style:none}
+details.sub .gb{border:0;border-top:1px solid #ececea}
+details.sub details.sub{background:#fafaf9}
+.bt{display:flex;gap:6px}
+.bt .btn{padding:4px 10px;font-size:12px}
+
+.f{display:grid;gap:5px}
+.f>label{font-size:12px;color:#555;display:flex;justify-content:space-between}
+.f em{font-style:normal;color:#999}
+.f small{color:#888;font-size:11.5px;line-height:1.45}
+.f input[type=text],.f select,.f textarea{border:1px solid #cfcfcb;background:#fff;padding:7px 9px;border-radius:4px;width:100%}
+.f textarea{resize:vertical;line-height:1.5}
+.f input[type=range]{width:100%;accent-color:#1b1b1b}
+.t-check{display:flex;gap:8px;align-items:center}
+.t-check>label{order:2;color:#333;font-size:13px}
+.t-color{display:flex;justify-content:space-between;align-items:center}
+.t-color input{width:46px;height:28px;padding:0;border:1px solid #cfcfcb;border-radius:4px;background:#fff}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.sw{width:34px;height:34px;border-radius:50%;border:1px solid #bbb;cursor:pointer;padding:0}
+.btn{border:1px solid #1b1b1b;background:#fff;padding:7px 12px;border-radius:4px;cursor:pointer}
+.btn.dark{background:#1b1b1b;color:#fff;font-weight:700}
+.btn:disabled{opacity:.5;cursor:wait}
+.bar{position:sticky;bottom:0;background:#f7f7f6;border-top:1px solid #d6d6d3;padding:12px 16px;display:grid;grid-template-columns:1fr;gap:8px}
+.bar .btn{padding:11px 6px;font-size:14px}
+.filerow{display:flex;gap:8px;align-items:center}
+.filerow input[type=file]{flex:1;min-width:0;font-size:12px}
+.cap{font-weight:600;font-size:12px;color:#333}
+.note{color:#777;font-size:12px;line-height:1.5;margin:0}
+
+.stage{display:flex;flex-direction:column;align-items:center;padding:32px;min-width:0;overflow:auto}
+.frame{position:relative;flex:none;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.16)}
+.frame.chk{background-color:#fff;background-image:linear-gradient(45deg,#ddd 25%,transparent 25%,transparent 75%,#ddd 75%),linear-gradient(45deg,#ddd 25%,transparent 25%,transparent 75%,#ddd 75%);background-size:16px 16px;background-position:0 0,8px 8px}
+.hint{font-size:12px;color:#4d4d4d;text-align:center;margin-top:12px;flex:none}
+
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;padding:20px;z-index:50}
+.modal.on{display:flex}
+.modal img{max-width:100%;max-height:74vh;background:#fff}
+.modal p{color:#fff;margin:0;font-size:12.5px;text-align:center;max-width:640px}
+.modal .row{display:flex;gap:8px}
+.modal a.btn{text-decoration:none;background:#fff;color:#111}
+
+@media (max-width:860px){
+  .app{display:block;height:auto}
+  body{background:#f7f7f6}
+  .stage{position:sticky;top:0;z-index:5;background:#c8c8c6;padding:10px;max-height:56vh}
+  .panel{overflow:visible;border:0}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="panel" id="panel">
+    <div class="ph-head">
+      <h1>2인 페어틀 메이커</h1>
+      <p>2004 시리즈 소개 html 디자인으로 제작할 수 있는 세로형 페어틀이에요. 완성하면 PNG로 저장이 가능합니다.</p>
+    </div>
+  </aside>
+  <main class="stage" id="stage">
+    <div class="frame" id="frame"><div id="sheet"></div></div>
+    <div class="hint" id="hint"></div>
+  </main>
+</div>
+
+<div class="modal" id="mPng">
+  <img id="outImg" alt="저장된 이미지">
+  <p>이미지를 길게 눌러 저장하거나 아래 버튼을 사용하세요.</p>
+  <div class="row"><a class="btn" id="dl" download="pairtle.png">다운로드</a><button class="btn" id="closePng">닫기</button></div>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const el = (t, c) => { const e = document.createElement(t); if (c) e.className = c; return e; };
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const hex2rgb = h => { h = h.replace('#',''); if (h.length === 3) h = [...h].map(x => x+x).join(''); return [0,2,4].map(i => parseInt(h.substr(i,2),16)); };
+const mix = (a,b,t) => { const A = hex2rgb(a), B = hex2rgb(b); return '#' + A.map((v,i) => Math.round(v + (B[i]-v)*t).toString(16).padStart(2,'0')).join(''); };
+
+const FONTS = {
+  orig:  "'Apple SD Gothic Neo',Verdana,sans-serif",
+  noto:  "'Noto Sans KR','Apple SD Gothic Neo',sans-serif",
+  dodum: "'Gowun Dodum','Noto Sans KR',sans-serif",
+  gulim: "Gulim,Dotum,'Noto Sans KR',sans-serif"
+};
+const PRESETS = [
+  {n:'파랑(원본)', m1:'#5b8ff0', m2:'#2a5fd6', cn:'#d6336c', hp:'#8ec9ea', hpt:'#1f5f8b', hpa:'#e58a2b', hl:'#fff3a0', pn:'#c2185b'},
+  {n:'핑크',       m1:'#ff9ec4', m2:'#e0508a', cn:'#7a3bd1', hp:'#f4a6c6', hpt:'#a02d62', hpa:'#e58a2b', hl:'#ffe0ef', pn:'#d81b60'},
+  {n:'그린',       m1:'#7ccf8a', m2:'#2e9a4a', cn:'#c2185b', hp:'#9dd9a8', hpt:'#1f6b35', hpa:'#e58a2b', hl:'#f3f7a0', pn:'#2e7d32'},
+  {n:'보라',       m1:'#a58cf0', m2:'#6a4cd6', cn:'#d6336c', hp:'#c7b6f2', hpt:'#4b3590', hpa:'#e58a2b', hl:'#f1e3ff', pn:'#7b1fa2'},
+  {n:'흑백',       m1:'#8a8a8a', m2:'#3a3a3a', cn:'#222222', hp:'#bbbbbb', hpt:'#333333', hpa:'#777777', hl:'#e8e8e8', pn:'#111111'}
+];
+
+/* ---------- 데이터 ---------- */
+const newIm = () => ({img:null, id:0, url:'', zoom:1, px:50, py:50, key:'', src:''});
+const newP = o => Object.assign({im:newIm(), name:'이름', age:'', nameSize:30, info:'', desc:'', align:'center', ratio:0.8}, o);
+const newEntry = o => Object.assign({no:'NO.1', name:'닉네임', date:'2004.01.01', text:'내용을 입력하세요', av:newIm(), open:false}, o);
+let uid = 0;
+const FACT = {
+  chat: () => ({type:'chat', title:'뒤돌아서며', icon:'👥', name1:'ŁΓ구Ι엽ズΙ', name2:'나', tb:true, input:'',
+    lines:'뭐? 임찬희랑 아무개??\n야!!! 딴 사람은 몰라도 그 둘은 안된다구!!ㅡㅡ\n왜 안되냐구?? 어휴...-_-\n니가 직접 가서 걔네 방명록 한번 보구와바 ㅋㅋ'}),
+  gb: () => ({type:'gb', owner:'임찬희⌒⌒∨', label:'✦ 방명록 ✦', avSize:52,
+    entries:[newEntry({no:'NO.12', name:'돈없어㉥カㅉガ', date:'2004.04.11', text:'임찬희 폼 다죽엇냐??ㅋㅋ\n복학 기념으로 형님이 한번 쏜다 연락하셈 ㅋㅋㅋ', open:true})]}),
+  profile: () => ({type:'profile', p:newP({name:'이름', age:'24', info:'소속 · 학번\n키 · 몸무게\n생일', desc:'소개글을 입력하세요.\n\n==형광펜== **굵게** ^^강조^^'})}),
+  pair: () => ({type:'pair',
+    a:newP({name:'임찬희', age:'24', nameSize:22, info:'성운대 체육학과 · 2학년\n189cm · 83kg\n7월 7일생',
+      desc:'3녀 1남 집안의 귀하디귀한 막내.\n==근육은 가보로 내려온다==는\n집안 전통을 이어받으신 분.\n\n사람 이름은 __꼭 한 글자씩 틀려__\n부르는 게 특기라나 뭐라나~\n\n^^★☆ 평택 임씨의 자랑 ☆★^^'}),
+    b:newP({name:'아무개', age:'99', nameSize:22, info:'성운대 아무학과 · 0학년\n100cm · 10kg\n13월 1일생',
+      desc:'여기에는\n페소 정보를\n적으세요!'})}),
+  sms: () => ({type:'sms', name:'임찬희', text:'저녁에 축구 ㄱ? ㅋㅋ', w:220, minH:220, menuL:'메뉴', menuC:'확인', menuR:'목록', status:'▂▄▆ ✉ 🔒 ▮▮▮▮'}),
+  text: () => ({type:'text', text:'아니', size:22, color:'#e53935', strike:true, align:'center'})
+};
+const TYPE_LABEL = {chat:'메신저 대화창', gb:'미니홈피 방명록', profile:'프로필 (1명)', pair:'프로필 (두 인물 나란히)', sms:'휴대폰 문자', text:'문구'};
+
+const state = {
+  width: 560, gap: 28, transparent: false, bg: '#ffffff', font: 'orig',
+  dSize: 13, dLH: 2, dLS: -0.9, scale: 2,
+  th: Object.assign({}, PRESETS[0]),
+  blocks: ['chat','pair','gb','sms','text'].map(t => Object.assign(FACT[t](), {uid:++uid, open:false}))
+};
+state.blocks[0].input = '대체 어떻길래. . . ?';
+state.blocks[0].open = true; state.blocks[1].open = true;
+
+/* ---------- 이미지 처리 ---------- */
+function cropIm(im, ratio, W) {
+  if (!im.img) return null;
+  const key = [im.id, ratio, W, im.zoom, im.px, im.py].join('|');
+  if (im.key === key) return im.src;
+  const iw = im.img.naturalWidth, ih = im.img.naturalHeight;
+  let cw, ch, z = im.zoom;
+  if (!ratio) { cw = Math.min(iw, W); ch = Math.round(cw * ih / iw); z = 1; } else { cw = W; ch = Math.round(W / ratio); }
+  const cv = document.createElement('canvas'); cv.width = cw; cv.height = ch;
+  const g = cv.getContext('2d');
+  const sc = Math.max(cw/iw, ch/ih) * z, dw = iw*sc, dh = ih*sc;
+  g.fillStyle = '#fff'; g.fillRect(0,0,cw,ch);
+  g.drawImage(im.img, (cw-dw)*im.px/100, (ch-dh)*im.py/100, dw, dh);
+  im.src = cv.toDataURL('image/jpeg', .9); im.key = key;
+  return im.src;
+}
+
+/* ---------- 텍스트 마크업 ---------- */
+const inline = t => esc(t)
+  .replace(/==(.+?)==/g, (m,x) => `<b><span style="background:${state.th.hl};font-size:1.1em;">${x}</span></b>`)
+  .replace(/\^\^(.+?)\^\^/g, (m,x) => `<i><span style="font-weight:bold;color:${state.th.pn};">${x}</span></i>`)
+  .replace(/__(.+?)__/g, '<span style="text-decoration:underline dotted;">$1</span>')
+  .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+  .replace(/\(\((.+?)\)\)/g, '<span style="font-size:12px;color:#777777;">$1</span>');
+const lines = t => t.split('\n').map(l => l.trim());
+const paras = t => t.split(/\n\s*\n/).map(p => p.trim()).filter(Boolean)
+  .map(p => `<div>${p.split('\n').map(l => inline(l.trim())).join('<br>')}</div>`).join('<br>');
+
+/* ---------- 블록 HTML (인라인 스타일: 그대로 붙여넣기 가능) ---------- */
+function chatHTML(b) {
+  const T = state.th;
+  const body = lines(b.lines).filter(Boolean).map(l => {
+    const two = l.startsWith('>'), t = two ? l.slice(1).trim() : l;
+    return `<div><span style="color:${two ? T.m2 : T.cn};font-weight:bold;">${esc(two ? b.name2 : b.name1)} :</span> ${inline(t)}</div>`;
+  }).join('');
+  const hasIn = b.input.trim() !== '';
+  return `<div style="box-sizing:border-box;width:100%;border:2px solid ${T.m2};background:#ffffff;">`
+    + `<div style="box-sizing:border-box;padding:5px 8px;background:linear-gradient(${T.m1},${T.m2});color:#ffffff;font-size:13px;font-weight:bold;"><span>${esc(b.icon)} ${esc(b.title)}</span><span style="float:right;letter-spacing:2px;font-size:12px;">▁ ▢ ✕</span></div>`
+    + `<div style="box-sizing:border-box;margin:6px;padding:12px 10px;background:#fffef2;border:1px solid #e6d98a;font-size:13px;line-height:1.9;color:#222222;word-break:keep-all;overflow-wrap:break-word;">${body}</div>`
+    + (b.tb ? `<div style="box-sizing:border-box;margin:0 6px ${hasIn ? 0 : 6}px;padding:5px 8px;background:#fdf1b8;border:1px solid #e6d98a;font-size:12px;color:#444444;"><span>📌</span> <span>😊▾</span> <span style="margin-left:6px;">🖼 배경화면</span> <span style="margin-left:6px;">💾 대화저장</span> <span style="margin-left:6px;">❎ 닫기</span></div>` : '')
+    + (hasIn ? `<div style="box-sizing:border-box;margin:6px;padding:8px 10px;background:#f1f1ea;border:1px solid #cfcfc4;font-size:13px;color:#666666;min-height:34px;">${esc(b.input)}</div>` : '')
+    + `</div>`;
+}
+
+function avHTML(e, s) {
+  const im = e.av, src = im.img ? cropIm(im, 1, 120) : null;
+  const inner = src
+    ? `<img src="${esc(src)}" style="display:block;width:${s}px;height:${s}px;object-fit:cover;">`
+    : `<div style="width:${s}px;height:${s}px;line-height:${s}px;text-align:center;font-size:${Math.round(s/2.2)}px;color:#b8c4d0;">☺</div>`;
+  return `<div style="flex:0 0 ${s}px;width:${s}px;height:${s}px;border:1px solid #cccccc;background:#f8fcff;overflow:hidden;">${inner}</div>`;
+}
+
+function gbHTML(b, mode) {
+  const T = state.th, es = b.entries;
+  const entries = es.map((e, i) =>
+    `<div style="box-sizing:border-box;border:1px solid #d8d8d8;${i < es.length-1 ? 'margin-bottom:10px;' : ''}">`
+    + `<div style="padding:4px 8px;background:#f1f1f1;font-size:11px;color:#555555;border-bottom:1px solid #d8d8d8;"><b style="color:#888888;">${esc(e.no)}</b> <span style="color:#222222;">${esc(e.name)}</span>${e.date ? ` <span style="color:#888888;">(${esc(e.date)})</span>` : ''}</div>`
+    + `<div style="display:flex;padding:8px;">${avHTML(e, b.avSize)}<div style="flex:1;min-width:0;padding-left:10px;font-size:13px;line-height:1.7;color:#222222;word-break:keep-all;overflow-wrap:break-word;">${lines(e.text).map(inline).join('<br>')}</div></div></div>`
+  ).join('');
+  return `<div style="box-sizing:border-box;width:100%;border:3px solid ${T.hp};border-radius:14px;background:#ffffff;padding:10px;">`
+    + `<div style="font-size:14px;font-weight:bold;color:${T.hpt};padding:2px 4px 8px;border-bottom:2px dotted ${T.hp};margin-bottom:${es.length ? 8 : 0}px;">${esc(b.owner)}  님의 미니홈피 <span style="font-size:11px;font-weight:normal;color:${T.hpa};float:right;">${esc(b.label)}</span></div>`
+    + entries + `</div>`;
+}
+
+function photoHTML(p, mode) {
+  const im = p.im, pad = p.ratio ? 100 / p.ratio : 125;
+  if (im.img && !(mode === 'export' && im.url)) return `<img src="${cropIm(im, p.ratio, 800)}" style="display:block;width:100%;height:auto;margin:0;">`;
+  if (im.url) return `<div style="position:relative;width:100%;height:0;padding-top:${pad}%;overflow:hidden;"><img src="${esc(im.url)}" style="position:absolute;left:0;top:0;width:100%;height:100%;object-fit:cover;object-position:${im.px}% ${im.py}%;"></div>`;
+  return `<div style="width:100%;height:0;padding-top:${pad}%;background:#eceff4;"></div>`;
+}
+
+function profileHTML(p, mode, compact) {
+  const ov = compact ? 90 : 130, pt = compact ? 58 : 80, fade = compact ? 60 : 90, px = compact ? 12 : 16;
+  const age = p.age.trim() ? ` <span style="font-size:13px;font-weight:normal;color:#666666;">(${esc(p.age)})</span>` : '';
+  const info = lines(p.info).filter(Boolean).map(esc).join('<br>');
+  return `<div style="box-sizing:border-box;width:100%;${compact ? 'height:100%;' : ''}background:#ffffff;border:1px solid #dddddd;overflow:hidden;color:#222222;">`
+    + photoHTML(p, mode)
+    + `<div style="box-sizing:border-box;position:relative;margin-top:-${ov}px;padding:${pt}px ${px}px ${compact ? 10 : 18}px;background:linear-gradient(to bottom,rgba(255,255,255,0),#ffffff ${fade}px);text-align:left;">`
+    + `<div style="font-size:${p.nameSize}px;font-weight:bold;line-height:1.3;letter-spacing:-0.9px;color:#111111;word-break:keep-all;">${esc(p.name)}${age}</div>`
+    + (info ? `<div style="font-size:12px;line-height:1.8;color:#777777;margin-top:6px;letter-spacing:-0.5px;word-break:keep-all;overflow-wrap:break-word;">${info}</div>` : '')
+    + `</div>`
+    + `<div style="box-sizing:border-box;padding:0 ${px}px ${compact ? 14 : 20}px;text-align:${p.align};font-size:${state.dSize - (compact ? 1 : 0)}px;line-height:${state.dLH};letter-spacing:${state.dLS}px;word-break:keep-all;overflow-wrap:break-word;">${paras(p.desc)}</div></div>`;
+}
+
+function pairHTML(b, mode) {
+  return `<div style="display:flex;align-items:stretch;">`
+    + `<div style="flex:1;min-width:0;margin-right:5px;">${profileHTML(b.a, mode, true)}</div>`
+    + `<div style="flex:1;min-width:0;margin-left:5px;">${profileHTML(b.b, mode, true)}</div></div>`;
+}
+
+function smsHTML(b) {
+  const T = state.th, soft = mix(T.m1, '#ffffff', .55);
+  return `<div style="box-sizing:border-box;width:100%;max-width:${b.w}px;margin:0 auto;background:#1c1c1e;border:3px solid #3a3a3c;border-radius:16px;padding:8px;">`
+    + `<div style="box-sizing:border-box;padding:4px 6px;font-size:10px;color:${soft};letter-spacing:1px;">${esc(b.status)}</div>`
+    + `<div style="box-sizing:border-box;margin:0 0 6px;padding:8px 10px;background:linear-gradient(${T.m1},${T.m2});border-radius:8px 8px 0 0;color:#ffffff;font-size:14px;font-weight:bold;">${esc(b.name)}</div>`
+    + `<div style="box-sizing:border-box;margin:0 0 6px;padding:26px 14px;min-height:${b.minH}px;background:#f6f8fc;border:1px solid #b9c7dd;text-align:center;font-size:17px;line-height:2;color:#222222;word-break:keep-all;overflow-wrap:break-word;">${lines(b.text).map(inline).join('<br>')}</div>`
+    + `<div style="box-sizing:border-box;display:flex;padding:4px 8px;font-size:12px;color:${soft};"><span style="flex:1;text-align:left;">${esc(b.menuL)}</span><span style="flex:1;text-align:center;color:#ffffff;font-weight:bold;">${esc(b.menuC)}</span><span style="flex:1;text-align:right;">${esc(b.menuR)}</span></div></div>`;
+}
+
+function textHTML(b) {
+  return `<div style="box-sizing:border-box;text-align:${b.align};font-size:${b.size}px;font-weight:bold;line-height:1.5;color:${b.color};${b.strike ? 'text-decoration:line-through;' : ''}">${lines(b.text).map(inline).join('<br>')}</div>`;
+}
+
+const blockHTML = (b, mode) => ({chat:chatHTML, gb:gbHTML, profile:(x,m) => profileHTML(x.p, m, false), pair:pairHTML, sms:smsHTML, text:textHTML}[b.type])(b, mode);
+const WATERMARK = '@kit';
+const inner = mode => state.blocks.map(b => blockHTML(b, mode))
+  .join(`<div style="height:${state.gap}px;line-height:0;font-size:0;"></div>`)
+  + `<div style="box-sizing:border-box;padding:${state.gap}px 0 14px;text-align:center;font-size:11px;line-height:1;letter-spacing:1px;color:#999999;">${WATERMARK}</div>`;
+const wrapStyle = preview => `box-sizing:border-box;margin:0 auto;padding:6px;background:${state.transparent ? 'transparent' : state.bg};font-family:${FONTS[state.font]};`
+  + (preview ? `position:absolute;left:0;top:0;transform-origin:0 0;width:${state.width}px;` : `max-width:${state.width}px;`);
+
+/* ---------- 렌더 ---------- */
+const sheet = $('#sheet'), frame = $('#frame'), hint = $('#hint');
+function render() {
+  sheet.setAttribute('style', wrapStyle(true));
+  sheet.innerHTML = inner('preview');
+  frame.classList.toggle('chk', state.transparent);
+  fit();
+}
+function fit() {
+  const st = $('#stage'), pad = innerWidth <= 860 ? 10 : 32;
+  const sc = Math.min(1, (st.clientWidth - pad*2) / state.width);
+  sheet.style.transform = `scale(${sc})`;
+  frame.style.width = state.width*sc + 'px';
+  frame.style.height = sheet.offsetHeight*sc + 'px';
+  hint.textContent = `너비 ${state.width}px · 높이 ${sheet.offsetHeight}px · 저장 시 ${state.width*state.scale}px 너비`;
+}
+new ResizeObserver(fit).observe($('#stage'));
+new ResizeObserver(fit).observe(sheet);
+
+/* ---------- 컨트롤 빌더 ---------- */
+const reg = [], bReg = []; let cid = 0;
+const syncAll = () => reg.forEach(f => f());
+function ctl(parent, obj, sp, R) {
+  R = R || reg;
+  const w = el('div', 'f t-' + sp.type), id = 'c' + (cid++);
+  const lab = el('label'); lab.htmlFor = id; lab.append(sp.label);
+  let inp;
+  if (sp.type === 'select') {
+    inp = el('select'); sp.opts.forEach(([v,t]) => { const o = el('option'); o.value = v; o.textContent = t; inp.append(o); });
+  } else if (sp.type === 'textarea') { inp = el('textarea'); inp.rows = sp.rows || 3; }
+  else {
+    inp = el('input'); inp.type = sp.type === 'check' ? 'checkbox' : sp.type;
+    if (sp.type === 'range') { inp.min = sp.min; inp.max = sp.max; inp.step = sp.step || 1; }
+  }
+  inp.id = id; if (sp.ph) inp.placeholder = sp.ph;
+  let val; if (sp.type === 'range') { val = el('em'); lab.append(val); }
+  const num = sp.type === 'range' || sp.num;
+  const showVal = () => { if (val) val.textContent = obj[sp.k] + (sp.unit || ''); };
+  const sync = () => { if (sp.type === 'check') inp.checked = !!obj[sp.k]; else inp.value = obj[sp.k]; showVal(); };
+  inp.addEventListener('input', () => {
+    obj[sp.k] = sp.type === 'check' ? inp.checked : num ? +inp.value : inp.value;
+    showVal(); if (sp.after) sp.after(); render();
+  });
+  R.push(sync); sync();
+  if (sp.type === 'check') w.append(inp, lab); else w.append(lab, inp);
+  if (sp.hint) { const h = el('small'); h.textContent = sp.hint; w.append(h); }
+  parent.append(w); return w;
+}
+function group(title, open) {
+  const d = el('details', 'g'); if (open) d.open = true;
+  const s = el('summary'); s.textContent = title;
+  const b = el('div', 'gb'); d.append(s, b); $('#panel').append(d);
+  return b;
+}
+
+function imgCtl(par, im, crop) {
+  const w = el('div', 'f'), l = el('label'); l.textContent = '사진';
+  const fr = el('div', 'filerow'), fi = el('input'), rm = el('button', 'btn');
+  fi.type = 'file'; fi.accept = 'image/*'; rm.type = 'button'; rm.textContent = '삭제';
+  fi.addEventListener('change', () => {
+    const f = fi.files[0]; if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => { const i = new Image(); i.onload = () => { im.img = i; im.id++; render(); }; i.src = rd.result; };
+    rd.readAsDataURL(f);
+  });
+  rm.addEventListener('click', () => { im.img = null; fi.value = ''; render(); });
+  fr.append(fi, rm); w.append(l, fr); par.append(w);
+  if (crop) {
+    ctl(par, im, {k:'zoom', type:'range', label:'확대', min:1, max:3, step:.05}, bReg);
+    ctl(par, im, {k:'px', type:'range', label:'가로 위치', min:0, max:100, unit:'%'}, bReg);
+    ctl(par, im, {k:'py', type:'range', label:'세로 위치', min:0, max:100, unit:'%'}, bReg);
+  }
+}
+
+function profileFields(par, p) {
+  ctl(par, p, {k:'ratio', type:'select', label:'사진 비율', num:true, opts:[[0,'원본 비율'],[0.8,'4:5'],[0.75,'3:4'],[1,'1:1'],[1.3333,'4:3 가로']]}, bReg);
+  imgCtl(par, p.im, true);
+  ctl(par, p, {k:'name', type:'text', label:'이름'}, bReg);
+  ctl(par, p, {k:'age', type:'text', label:'나이 (비우면 숨김)'}, bReg);
+  ctl(par, p, {k:'nameSize', type:'range', label:'이름 크기', min:16, max:48, unit:'px'}, bReg);
+  ctl(par, p, {k:'info', type:'textarea', rows:3, label:'정보 (소속 · 키 · 생일 등)', hint:'한 줄에 하나'}, bReg);
+  ctl(par, p, {k:'desc', type:'textarea', rows:9, label:'소개글',
+    hint:'빈 줄 = 문단 구분 · **굵게** · ==형광펜== · ^^강조색^^ · __점선 밑줄__ · ((작은 회색))'}, bReg);
+  ctl(par, p, {k:'align', type:'select', label:'소개글 정렬', opts:[['center','가운데'],['left','왼쪽']]}, bReg);
+}
+
+function blockFields(b, gb) {
+  const R = bReg;
+  if (b.type === 'chat') {
+    ctl(gb, b, {k:'title', type:'text', label:'창 제목'}, R);
+    ctl(gb, b, {k:'icon', type:'text', label:'제목 앞 아이콘'}, R);
+    ctl(gb, b, {k:'name1', type:'text', label:'말하는 사람 이름'}, R);
+    ctl(gb, b, {k:'name2', type:'text', label:'두 번째 사람 이름'}, R);
+    ctl(gb, b, {k:'lines', type:'textarea', rows:6, label:'대화', hint:'한 줄에 한 마디 · 줄 앞에 > 를 붙이면 두 번째 사람이 말해요'}, R);
+    ctl(gb, b, {k:'tb', type:'check', label:'도구 줄 표시 (배경화면·대화저장)'}, R);
+    ctl(gb, b, {k:'input', type:'text', label:'입력창 문구 (비우면 숨김)'}, R);
+  } else if (b.type === 'gb') {
+    ctl(gb, b, {k:'owner', type:'text', label:'홈피 주인'}, R);
+    ctl(gb, b, {k:'label', type:'text', label:'오른쪽 표시'}, R);
+    ctl(gb, b, {k:'avSize', type:'range', label:'프로필 사진 크기 (전체 공통)', min:36, max:90, unit:'px'}, R);
+    const cap = el('div', 'cap'); cap.textContent = `방명록 글 (${b.entries.length})`; gb.append(cap);
+    b.entries.forEach((e, i) => {
+      const d = el('details', 'sub'); d.open = !!e.open;
+      d.addEventListener('toggle', () => { e.open = d.open; });
+      const s = el('summary'); s.textContent = `글 ${i+1} · ${e.name || '(이름 없음)'}`; d.append(s);
+      const g2 = el('div', 'gb'), bt = el('div', 'bt');
+      const mk = (t, fn, dis) => { const x = el('button', 'btn'); x.type = 'button'; x.textContent = t; x.disabled = !!dis; x.addEventListener('click', fn); bt.append(x); };
+      const mv = dir => { const j = i + dir, a = b.entries; [a[i], a[j]] = [a[j], a[i]]; buildBlocks(); render(); };
+      mk('▲', () => mv(-1), i === 0);
+      mk('▼', () => mv(1), i === b.entries.length - 1);
+      mk('이 글 삭제', () => { b.entries.splice(i, 1); buildBlocks(); render(); });
+      g2.append(bt);
+      const row = el('div', 'grid2'); g2.append(row);
+      ctl(row, e, {k:'no', type:'text', label:'번호'}, R);
+      ctl(row, e, {k:'date', type:'text', label:'날짜'}, R);
+      ctl(g2, e, {k:'name', type:'text', label:'닉네임'}, R);
+      ctl(g2, e, {k:'text', type:'textarea', rows:4, label:'내용', hint:'줄바꿈 그대로 반영 · ==형광펜== · **굵게** 등 사용 가능'}, R);
+      imgCtl(g2, e.av, true);
+      d.append(g2); gb.append(d);
+    });
+    const add = el('button', 'btn'); add.type = 'button'; add.textContent = '+ 방명록 글 추가';
+    add.addEventListener('click', () => {
+      const n = b.entries.length + 1;
+      b.entries.push(newEntry({no:'NO.' + n, open:true})); buildBlocks(); render();
+    });
+    gb.append(add);
+  } else if (b.type === 'profile') {
+    profileFields(gb, b.p);
+  } else if (b.type === 'pair') {
+    [['a','왼쪽 인물'],['b','오른쪽 인물']].forEach(([k, t], i) => {
+      const d = el('details', 'sub'); d.open = i === 0;
+      const s = el('summary'); s.textContent = t; d.append(s);
+      const g2 = el('div', 'gb'); profileFields(g2, b[k]); d.append(g2); gb.append(d);
+    });
+  } else if (b.type === 'sms') {
+    ctl(gb, b, {k:'name', type:'text', label:'보낸 사람'}, R);
+    ctl(gb, b, {k:'text', type:'textarea', rows:3, label:'문자 내용'}, R);
+    ctl(gb, b, {k:'w', type:'range', label:'폰 너비', min:180, max:320, unit:'px'}, R);
+    ctl(gb, b, {k:'minH', type:'range', label:'화면 높이', min:100, max:380, unit:'px'}, R);
+    ctl(gb, b, {k:'status', type:'text', label:'상태 표시줄'}, R);
+    const g3 = el('div', 'grid3'); gb.append(g3);
+    ctl(g3, b, {k:'menuL', type:'text', label:'왼쪽 키'}, R);
+    ctl(g3, b, {k:'menuC', type:'text', label:'가운데 키'}, R);
+    ctl(g3, b, {k:'menuR', type:'text', label:'오른쪽 키'}, R);
+  } else if (b.type === 'text') {
+    ctl(gb, b, {k:'text', type:'textarea', rows:3, label:'문구'}, R);
+    ctl(gb, b, {k:'size', type:'range', label:'크기', min:12, max:64, unit:'px'}, R);
+    ctl(gb, b, {k:'color', type:'color', label:'색'}, R);
+    ctl(gb, b, {k:'strike', type:'check', label:'취소선'}, R);
+    ctl(gb, b, {k:'align', type:'select', label:'정렬', opts:[['center','가운데'],['left','왼쪽'],['right','오른쪽']]}, R);
+  }
+}
+
+function buildBlocks() {
+  const host = $('#blocksHost'); host.innerHTML = ''; bReg.length = 0;
+  state.blocks.forEach((b, i) => {
+    const d = el('details', 'sub'); d.open = b.open;
+    d.addEventListener('toggle', () => { b.open = d.open; });
+    const s = el('summary'); s.textContent = `${i+1}. ${TYPE_LABEL[b.type]}`; d.append(s);
+    const gb = el('div', 'gb');
+    const bt = el('div', 'bt');
+    const mkBtn = (t, fn, dis) => { const x = el('button', 'btn'); x.type = 'button'; x.textContent = t; x.disabled = !!dis; x.addEventListener('click', fn); bt.append(x); };
+    const move = dir => { const j = i + dir, a = state.blocks; [a[i], a[j]] = [a[j], a[i]]; buildBlocks(); render(); };
+    mkBtn('▲ 위로', () => move(-1), i === 0);
+    mkBtn('▼ 아래로', () => move(1), i === state.blocks.length - 1);
+    mkBtn('삭제', () => { state.blocks.splice(i, 1); buildBlocks(); render(); });
+    gb.append(bt);
+    blockFields(b, gb);
+    d.append(gb); host.append(d);
+  });
+}
+
+/* ---------- 패널 구성 ---------- */
+{
+  const b = group('블록 (위에서 아래로 쌓여요)', true);
+  const host = el('div'); host.id = 'blocksHost'; b.append(host);
+  const add = el('div', 'f'), l = el('label'); l.textContent = '블록 추가'; add.append(l);
+  const g = el('div', 'grid3');
+  Object.keys(TYPE_LABEL).forEach(t => {
+    const x = el('button', 'btn'); x.type = 'button'; x.textContent = '+ ' + TYPE_LABEL[t].replace(/ \(.*\)/, m => m.includes('두') ? ' ×2' : '');
+    x.style.fontSize = '12px'; x.style.padding = '8px 4px';
+    x.addEventListener('click', () => { state.blocks.push(Object.assign(FACT[t](), {uid:++uid, open:true})); buildBlocks(); render(); });
+    g.append(x);
+  });
+  add.append(g); b.append(add);
+  const n = el('p', 'note'); n.textContent = '2인 페어틀이라면 "프로필 (두 인물 나란히)" 블록 하나로 두 사람을 한 번에 넣을 수 있어요.'; b.append(n);
+}
+{
+  const b = group('시트 · 글꼴', false);
+  ctl(b, state, {k:'width', type:'range', label:'너비', min:360, max:1000, step:10, unit:'px'});
+  ctl(b, state, {k:'gap', type:'range', label:'블록 사이 간격', min:8, max:64, unit:'px'});
+  ctl(b, state, {k:'font', type:'select', label:'글꼴', opts:[['orig','원본 (Apple SD Gothic Neo / Verdana)'],['noto','노토 산스'],['dodum','고운돋움'],['gulim','굴림·돋움 느낌']]});
+  ctl(b, state, {k:'transparent', type:'check', label:'배경 투명 (PNG)'});
+  ctl(b, state, {k:'bg', type:'color', label:'배경색'});
+  ctl(b, state, {k:'dSize', type:'range', label:'소개글 크기', min:11, max:18, unit:'px'});
+  ctl(b, state, {k:'dLH', type:'range', label:'소개글 줄 간격', min:1.5, max:2.6, step:.05});
+  ctl(b, state, {k:'dLS', type:'range', label:'소개글 자간', min:-2, max:2, step:.1, unit:'px'});
+}
+{
+  const b = group('색상 테마', false);
+  const sw = el('div', 'swatches');
+  PRESETS.forEach(p => {
+    const x = el('button', 'sw'); x.type = 'button'; x.title = p.n; x.setAttribute('aria-label', p.n);
+    x.style.background = `linear-gradient(135deg, ${p.m1} 50%, ${p.m2} 50%)`;
+    x.addEventListener('click', () => { Object.assign(state.th, p); syncAll(); render(); });
+    sw.append(x);
+  });
+  b.append(sw);
+  const g = el('div', 'grid2'); b.append(g);
+  [['m1','메신저 밝은색'],['m2','메신저 진한색'],['cn','대화 이름색'],['hp','홈피 테두리'],['hpt','홈피 제목'],['hpa','홈피 표시'],['hl','형광펜'],['pn','강조(^^)']]
+    .forEach(([k, t]) => ctl(g, state.th, {k, type:'color', label:t}));
+}
+{
+  const b = group('저장 옵션', false);
+  ctl(b, state, {k:'scale', type:'select', label:'PNG 해상도', num:true, opts:[[1,'1×'],[2,'2×'],[3,'3×']]});
+  const n = el('p', 'note');
+  n.textContent = '업로드한 사진은 내 브라우저 안에서만 처리되고 서버로 올라가지 않아요.';
+  b.append(n);
+}
+const bar = el('div', 'bar');
+const pngBtn = el('button', 'btn dark'); pngBtn.type = 'button'; pngBtn.textContent = 'PNG로 저장';
+bar.append(pngBtn); $('#panel').append(bar);
+
+/* ---------- 저장 ---------- */
+pngBtn.addEventListener('click', async () => {
+  pngBtn.disabled = true; pngBtn.textContent = '저장 중…';
+  try {
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    const canvas = await html2canvas(sheet, {
+      scale: state.scale, backgroundColor: state.transparent ? null : state.bg, useCORS: true, logging: false,
+      windowWidth: state.width,
+      onclone: doc => {
+        const s = doc.getElementById('sheet');
+        doc.querySelector('.app').style.display = 'none';
+        doc.body.append(s);
+        doc.body.style.cssText = 'margin:0;overflow:visible;height:auto;background:transparent';
+        doc.documentElement.style.overflow = 'visible';
+        s.style.transform = 'none'; s.style.left = '0'; s.style.top = '0';
+      }
+    });
+    canvas.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      $('#outImg').src = url; $('#dl').href = url; $('#mPng').classList.add('on');
+    }, 'image/png');
+  } catch (e) {
+    alert('저장에 실패했어요. 다시 시도해 주세요.\n' + e.message);
+  } finally {
+    pngBtn.disabled = false; pngBtn.textContent = 'PNG로 저장';
+  }
+});
+$('#closePng').addEventListener('click', () => $('#mPng').classList.remove('on'));
+
+buildBlocks();
+render();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(render);
+</script>
+</body>
+</html>
